@@ -40,14 +40,17 @@
 		discardPile: []
 	});
 
-	$: firstOpenedCard =
+	$: srcPath =
 		$state.opened.length > 0
-			? $state.deck.find((cur) => cur.id === $state.opened[0].id)
-			: undefined;
+			? $state.deck.find((cur) => cur.id === $state.opened[0].id)?.src
+			: 'forestshuffle/_back.webp';
+	$: needsReshuffle = $state.drawPile.length === 0 && $state.opened.length === 0;
+	$: message = `${$state.drawPile.length + $state.opened.length}/${deck.length} cards left`;
 
-	const reshuffle = () => {
+	const reshuffleAndDrawFirst = () => {
 		state.set(moveFromDiscardToDrawPile($state));
 		state.set(shuffleDrawPile($state));
+		drawNextCard();
 	};
 
 	const drawNextCard = () => {
@@ -59,89 +62,123 @@
 	};
 </script>
 
-<h1>Forstshuffle - Automata</h1>
+<div class="info-container">
+	<div id="icons" popover>
+		<h3>Icons</h3>
+		<div class="row">
+			<img src="rule_add.png" alt="sorry" />
+			<p>Add given cards to the right of the clearing</p>
+		</div>
+		<div class="row">
+			<img src="rule_remove.png" alt="sorry" />
+			<p>Discard given cards from the given direction of the clearing</p>
+		</div>
+		<div class="row">
+			<img src="rule_discard.png" alt="sorry" />
+			<p>Discard one card directly from the draw pile</p>
+		</div>
+	</div>
+	<div class="nav-container">
+		<button popovertarget="icons">Explain icons</button>
+		<button><a href="/information">Go to rules</a></button>
+	</div>
+</div>
 
-<div class="row">
-	<div class="pile">
-		<img class="card" src="forestshuffle/_back.webp" alt="Back of a card" />
-		<div class="pile_controls">
-			<p class="text">{$state.drawPile.length} cards on draw pile</p>
-			<div class="column">
-				<button on:click={drawNextCard}>Draw</button>
-			</div>
-		</div>
-	</div>
-	<div class="pile">
-		<img class="card grayed-out" src="forestshuffle/_back.webp" alt="Back of a card" />
-		<div class="pile_controls">
-			<p class="text">{$state.discardPile.length} cards discarded</p>
-			<button on:click={reshuffle}>Reshuffle</button>
-		</div>
-	</div>
-</div>
-<div class="row scroll-container">
-	{#if firstOpenedCard !== undefined}
-		<img class="card" src={firstOpenedCard.src} alt="sorry" />
+<div class="main-container">
+	<img class="card" class:grayed-out={needsReshuffle} src={srcPath} alt="sorry" width={280} />
+	{#if needsReshuffle}
+		<button class="main-container__action" on:click={reshuffleAndDrawFirst}
+			>Reshuffle & Draw first</button
+		>
+	{:else}
+		<button class="main-container__action" on:click={drawNextCard}>Draw next</button>
 	{/if}
-</div>
-<div class="link-list">
-	<a
-		href="https://lookout-spiele.de/upload/en_forrestshuffle.html_Mischwald_Automa_EN_V2.pdf"
-		target="_blank">Automata rules</a
-	>
-	<a
-		href="https://lookout-spiele.de/upload/en_forrestshuffle.html_Mischwald_Automa_Onlinezusatz_EN_V3.pdf"
-		target="_blank">Solo challenges</a
-	>
+	<p class="message">{message}</p>
 </div>
 
 <style>
-	.pile {
+	.main-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		margin: 16px;
 		position: relative;
 	}
-	.pile_controls {
+	.main-container__action {
+		all: unset;
+		margin-top: 8px;
+		font-size: 24px;
+		width: 196px;
+		padding: 12px 24px;
+		text-align: center;
 		position: absolute;
-		top: 0;
-		width: 165px;
-		height: 264px;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		padding: 8px;
-		gap: 8px;
+		color: black;
+		background-color: whitesmoke;
+		border: unset;
+		opacity: 70%;
+		text-transform: uppercase;
+		border-radius: 8px;
+		box-shadow: 0px 0px 4px 0px gray;
 	}
-	.row {
-		display: flex;
-		align-items: center;
-		gap: 8px;
+	.nav-container button {
+		all: unset;
+		width: 128px;
+		text-align: center;
+		text-transform: uppercase;
+		border: unset;
+		padding: 8px 12px;
+		border-radius: 8px;
+		background-color: whitesmoke;
+		box-shadow: 0px 0px 4px 0px gray;
 	}
-	.column {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
+
+	a {
+		text-decoration: none;
+		color: black;
 	}
-	button {
-		height: 32px;
+
+	h3 {
+		margin: 8px;
 	}
+
 	.card {
 		border-radius: 8px;
-	}
-	.scroll-container {
-		overflow-x: auto;
-	}
-	.text {
-		background-color: #f0f0f0;
-		padding: 4px;
-		text-align: center;
 	}
 	.grayed-out {
 		opacity: 0.5;
 	}
-	.link-list {
-		margin-top: 16px;
+	.nav-container {
+		display: flex;
+		justify-content: space-around;
+		margin: 0 16px;
+	}
+	.info-container {
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
+		margin: 0px 16px;
+	}
+	.row {
+		display: flex;
 		align-items: center;
+		margin-left: 16px;
+
+		& img {
+			margin-right: 16px;
+			width: 30px;
+		}
+		& p {
+			margin: 4px 0px;
+		}
+	}
+	.message {
+		background-color: whitesmoke;
+		opacity: 80%;
+		background-blend-mode: color;
+		padding: 8px;
+		border-radius: 8px;
+		position: absolute;
+		top: 0;
+		right: 50px;
 	}
 </style>
