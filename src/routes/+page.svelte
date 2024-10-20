@@ -110,11 +110,10 @@
 		font-size: 24px;
 		width: 196px;
 		padding: 4px 24px;
-		height: 32px;
+		text-align: center;
 	}
 	button {
 		all: unset;
-		height: 24px;
 		width: 128px;
 		text-align: center;
 		text-transform: uppercase;
