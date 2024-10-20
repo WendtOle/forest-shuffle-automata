@@ -59,7 +59,7 @@
 
 <style>
 	.information-container {
-		height: 100%;
+		margin: 16px;
 	}
 	.section {
 		margin: 16px;
@@ -68,9 +68,12 @@
 		all: unset;
 		height: 32px;
 		text-transform: uppercase;
-		border: 1px solid black;
+		border: unset;
 		padding: 2px 16px;
 		border-radius: 8px;
+
+		background-color: whitesmoke;
+		box-shadow: 0px 0px 4px 0px gray;
 
 		& a {
 			text-decoration: none;

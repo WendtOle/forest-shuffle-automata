@@ -106,6 +106,7 @@
 		position: relative;
 	}
 	.main-container__action {
+		all: unset;
 		margin-top: 8px;
 		font-size: 24px;
 		width: 196px;
@@ -116,15 +117,20 @@
 		background-color: whitesmoke;
 		border: unset;
 		opacity: 70%;
+		text-transform: uppercase;
+		border-radius: 8px;
+		box-shadow: 0px 0px 4px 0px gray;
 	}
-	button {
+	.nav-container button {
 		all: unset;
 		width: 128px;
 		text-align: center;
 		text-transform: uppercase;
-		border: 1px solid black;
-		padding: 2px 12px;
+		border: unset;
+		padding: 8px 12px;
 		border-radius: 8px;
+		background-color: whitesmoke;
+		box-shadow: 0px 0px 4px 0px gray;
 	}
 
 	a {
