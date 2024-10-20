@@ -6,9 +6,11 @@
 <style>
 	.page {
 		height: 50vh;
+		max-width: 400px;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+		margin: auto;
 	}
 	h1 {
 		font-size: 30px;
