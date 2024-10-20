@@ -11,8 +11,8 @@ import {
 
 describe('Deck', () => {
 	const deck: Card[] = [
-		{ id: '1', content: '1' },
-		{ id: '2', content: '2' }
+		{ id: '1', src: 'some/path.wepb' },
+		{ id: '2', src: 'some/path.wepb' }
 	];
 
 	it('should draw first card of drawpile', () => {
