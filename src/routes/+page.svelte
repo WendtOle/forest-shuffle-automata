@@ -9,6 +9,7 @@
 		type State
 	} from '../cardLogic';
 	import { shuffleArray } from '../fishersAlgorithm';
+	import { persistedWritable } from '../persistedWritable';
 
 	const deck: Card[] = shuffleArray([
 		{ id: '0', src: 'forestshuffle/0.webp' },
@@ -33,7 +34,7 @@
 		{ id: '19', src: 'forestshuffle/19.webp' }
 	]);
 
-	const state = writable<State>({
+	const state = persistedWritable<State>('deck', {
 		deck,
 		drawPile: deck,
 		opened: [],
