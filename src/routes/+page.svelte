@@ -88,7 +88,7 @@
 	<img class="card" class:grayed-out={needsReshuffle} src={srcPath} alt="sorry" width={280} />
 	{#if needsReshuffle}
 		<button class="main-container__action" on:click={reshuffleAndDrawFirst}
-			>Reshuffle & Draw fist</button
+			>Reshuffle & Draw first</button
 		>
 	{:else}
 		<button class="main-container__action" on:click={drawNextCard}>Draw next</button>
@@ -109,8 +109,13 @@
 		margin-top: 8px;
 		font-size: 24px;
 		width: 196px;
-		padding: 4px 24px;
+		padding: 12px 24px;
 		text-align: center;
+		position: absolute;
+		color: black;
+		background-color: whitesmoke;
+		border: unset;
+		opacity: 70%;
 	}
 	button {
 		all: unset;
