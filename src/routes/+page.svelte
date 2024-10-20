@@ -107,6 +107,10 @@
 	}
 	.main-container__action {
 		margin-top: 8px;
+		font-size: 24px;
+		width: 196px;
+		padding: 4px 24px;
+		height: 32px;
 	}
 	button {
 		all: unset;
