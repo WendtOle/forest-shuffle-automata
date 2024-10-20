@@ -94,6 +94,16 @@
 		</div>
 	{/each}
 </div>
+<div class="link-list">
+	<a
+		href="https://lookout-spiele.de/upload/en_forrestshuffle.html_Mischwald_Automa_EN_V2.pdf"
+		target="_blank">Automata rules</a
+	>
+	<a
+		href="https://lookout-spiele.de/upload/en_forrestshuffle.html_Mischwald_Automa_Onlinezusatz_EN_V3.pdf"
+		target="_blank">Solo challenges</a
+	>
+</div>
 
 <style>
 	.pile {
@@ -136,5 +146,12 @@
 	}
 	.grayed-out {
 		opacity: 0.5;
+	}
+	.link-list {
+		margin-top: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		align-items: center;
 	}
 </style>
