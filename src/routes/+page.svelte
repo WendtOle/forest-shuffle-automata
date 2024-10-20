@@ -44,6 +44,19 @@
 		$state.opened.length > 0
 			? $state.deck.find((cur) => cur.id === $state.opened[0].id)
 			: undefined;
+
+	const reshuffle = () => {
+		state.set(moveFromDiscardToDrawPile($state));
+		state.set(shuffleDrawPile($state));
+	};
+
+	const drawNextCard = () => {
+		const opened = $state.opened;
+		opened.forEach((card) => {
+			state.set(discardFromOpened($state, card));
+		});
+		state.set(openFromDrawPile($state));
+	};
 </script>
 
 <h1>Forstshuffle - Automata</h1>
@@ -54,15 +67,7 @@
 		<div class="pile_controls">
 			<p class="text">{$state.drawPile.length} cards on draw pile</p>
 			<div class="column">
-				<button
-					on:click={() => {
-						const opened = $state.opened;
-						opened.forEach((card) => {
-							state.set(discardFromOpened($state, card));
-						});
-						state.set(openFromDrawPile($state));
-					}}>Draw</button
-				>
+				<button on:click={drawNextCard}>Draw</button>
 			</div>
 		</div>
 	</div>
@@ -70,12 +75,7 @@
 		<img class="card grayed-out" src="forestshuffle/_back.webp" alt="Back of a card" />
 		<div class="pile_controls">
 			<p class="text">{$state.discardPile.length} cards discarded</p>
-			<button
-				on:click={() => {
-					state.set(moveFromDiscardToDrawPile($state));
-					state.set(shuffleDrawPile($state));
-				}}>Reshuffle</button
-			>
+			<button on:click={reshuffle}>Reshuffle</button>
 		</div>
 	</div>
 </div>
