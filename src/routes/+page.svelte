@@ -63,18 +63,23 @@
 </script>
 
 <div class="info-container">
-	<h3>Icons</h3>
-	<div class="row">
-		<img src="rule_add.png" alt="sorry" />
-		<p>Add given cards to the right of the clearing</p>
+	<div id="icons" popover>
+		<h3>Icons</h3>
+		<div class="row">
+			<img src="rule_add.png" alt="sorry" />
+			<p>Add given cards to the right of the clearing</p>
+		</div>
+		<div class="row">
+			<img src="rule_remove.png" alt="sorry" />
+			<p>Discard given cards from the given direction of the clearing</p>
+		</div>
+		<div class="row">
+			<img src="rule_discard.png" alt="sorry" />
+			<p>Discard one card directly from the draw pile</p>
+		</div>
 	</div>
-	<div class="row">
-		<img src="rule_remove.png" alt="sorry" />
-		<p>Discard given cards from the given direction of the clearing</p>
-	</div>
-	<div class="row">
-		<img src="rule_discard.png" alt="sorry" />
-		<p>Discard one card directly from the draw pile</p>
+	<div class="nav-container">
+		<button popovertarget="icons">Explain icons</button>
 	</div>
 	<div class="nav-container">
 		<button><a href="/information">Go to rules</a></button>
@@ -108,6 +113,8 @@
 	button {
 		all: unset;
 		height: 24px;
+		width: 128px;
+		text-align: center;
 		text-transform: uppercase;
 		border: 1px solid black;
 		padding: 2px 16px;
@@ -132,6 +139,7 @@
 	.nav-container {
 		display: flex;
 		justify-content: space-around;
+		margin-bottom: 8px;
 	}
 	.info-container {
 		display: flex;

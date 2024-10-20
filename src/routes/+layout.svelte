@@ -1,11 +1,11 @@
+<h1>Forest Shuffle - Automata</h1>
 <div class="page">
-	<h1>Forest Shuffle - Automata</h1>
 	<slot></slot>
 </div>
 
 <style>
 	.page {
-		height: 100vh;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
