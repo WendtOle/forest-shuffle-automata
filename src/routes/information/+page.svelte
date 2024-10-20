@@ -1,3 +1,6 @@
+<div class="nav-container">
+	<button><a href="/">Go back to main</a></button>
+</div>
 <div class="information-container">
 	<div class="section">
 		<p>Setup</p>
@@ -53,9 +56,6 @@
 		</ul>
 	</div>
 </div>
-<div class="nav-container">
-	<button><a href="/">Go back to main</a></button>
-</div>
 
 <style>
 	.information-container {
@@ -81,6 +81,5 @@
 	.nav-container {
 		display: flex;
 		justify-content: space-around;
-		margin: 32px;
 	}
 </style>

@@ -80,8 +80,6 @@
 	</div>
 	<div class="nav-container">
 		<button popovertarget="icons">Explain icons</button>
-	</div>
-	<div class="nav-container">
 		<button><a href="/information">Go to rules</a></button>
 	</div>
 </div>
@@ -117,7 +115,7 @@
 		text-align: center;
 		text-transform: uppercase;
 		border: 1px solid black;
-		padding: 2px 16px;
+		padding: 2px 12px;
 		border-radius: 8px;
 	}
 
@@ -139,7 +137,7 @@
 	.nav-container {
 		display: flex;
 		justify-content: space-around;
-		margin-bottom: 8px;
+		margin: 0 16px;
 	}
 	.info-container {
 		display: flex;
