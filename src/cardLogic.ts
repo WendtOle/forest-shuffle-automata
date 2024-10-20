@@ -1,6 +1,7 @@
 import { shuffleArray } from './fishersAlgorithm';
 
 export interface Card {
+	content: string;
 	id: string;
 }
 

@@ -10,7 +10,10 @@ import {
 } from './cardLogic';
 
 describe('Deck', () => {
-	const deck: Card[] = [{ id: '1' }, { id: '2' }];
+	const deck: Card[] = [
+		{ id: '1', content: '1' },
+		{ id: '2', content: '2' }
+	];
 
 	it('should draw first card of drawpile', () => {
 		const state: State = {
