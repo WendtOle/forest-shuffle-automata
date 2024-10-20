@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
 	import {
 		type Card,
 		shuffleDrawPile,
@@ -40,6 +39,11 @@
 		opened: [],
 		discardPile: []
 	});
+
+	$: firstOpenedCard =
+		$state.opened.length > 0
+			? $state.deck.find((cur) => cur.id === $state.opened[0].id)
+			: undefined;
 </script>
 
 <h1>Forstshuffle - Automata</h1>
@@ -57,17 +61,7 @@
 							state.set(discardFromOpened($state, card));
 						});
 						state.set(openFromDrawPile($state));
-					}}>Draw & Discard</button
-				>
-				<button
-					on:click={() => {
-						state.set(openFromDrawPile($state));
 					}}>Draw</button
-				>
-				<button
-					on:click={() => {
-						state.set(shuffleDrawPile($state));
-					}}>Shuffle</button
 				>
 			</div>
 		</div>
@@ -76,23 +70,19 @@
 		<img class="card grayed-out" src="forestshuffle/_back.webp" alt="Back of a card" />
 		<div class="pile_controls">
 			<p class="text">{$state.discardPile.length} cards discarded</p>
-			<button on:click={() => state.set(moveFromDiscardToDrawPile($state))}>Put back</button>
+			<button
+				on:click={() => {
+					state.set(moveFromDiscardToDrawPile($state));
+					state.set(shuffleDrawPile($state));
+				}}>Reshuffle</button
+			>
 		</div>
 	</div>
 </div>
 <div class="row scroll-container">
-	{#each $state.opened as cardId}
-		{@const id = cardId.id}
-		{@const card = $state.deck.find((cur) => cur.id === id)}
-		<div class="column">
-			<img class="card" src={card?.src} alt="sorry" />
-			<button
-				on:click={() => {
-					state.set(discardFromOpened($state, { id }));
-				}}>Discard</button
-			>
-		</div>
-	{/each}
+	{#if firstOpenedCard !== undefined}
+		<img class="card" src={firstOpenedCard.src} alt="sorry" />
+	{/if}
 </div>
 <div class="link-list">
 	<a
