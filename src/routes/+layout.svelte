@@ -1,20 +1,42 @@
-<h1>Forest Shuffle - Automata</h1>
-<div class="page">
+<script>
+	import '../global.css';
+	import IconModal from '../IconModal.svelte';
+	import Rules from '../rules.svelte';
+</script>
+
+<div class="main">
 	<slot></slot>
 </div>
 
+<IconModal />
+<Rules />
+
 <style>
-	.page {
-		height: 50vh;
+	.main {
+		width: 100%;
 		max-width: 400px;
 		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		margin: auto;
+		justify-content: center;
+		align-items: center;
+		position: relative;
 	}
-	h1 {
-		font-size: 30px;
-		text-align: center;
-		margin: 16px 16px;
+	.info-popover {
+		margin: 8px;
+	}
+	.title {
+		font-size: 18px;
+	}
+	.text {
+		font-size: 14px;
+	}
+	button {
+		padding: 8px 16px;
+		position: absolute;
+		right: 0;
+	}
+	[popover]::backdrop {
+		background-color: white;
+		opacity: 0.5;
+		pointer-events: none;
 	}
 </style>

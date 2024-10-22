@@ -1,0 +1,23 @@
+button,
+body,
+img,
+p {
+	all: unset;
+}
+
+body {
+	font-family: monospace, sans-serif;
+	display: flex;
+	justify-content: center;
+}
+
+[popover] {
+	border: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: unset;
+	padding: unset;
+	width: 100%;
+	height: 100%;
+}

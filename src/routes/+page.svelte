@@ -47,13 +47,21 @@
 	$: needsReshuffle = $state.drawPile.length === 0 && $state.opened.length === 0;
 	$: message = `${$state.drawPile.length + $state.opened.length}/${deck.length} cards left`;
 
-	const reshuffleAndDrawFirst = () => {
-		state.set(moveFromDiscardToDrawPile($state));
-		state.set(shuffleDrawPile($state));
+	const drawNext = () => {
+		console.log('test');
+		if (needsReshuffle) {
+			reshuffle();
+		}
 		drawNextCard();
 	};
 
+	const reshuffle = () => {
+		state.set(moveFromDiscardToDrawPile($state));
+		state.set(shuffleDrawPile($state));
+	};
+
 	const drawNextCard = () => {
+		console.log({ state: $state });
 		const opened = $state.opened;
 		opened.forEach((card) => {
 			state.set(discardFromOpened($state, card));
@@ -62,123 +70,78 @@
 	};
 </script>
 
-<div class="info-container">
-	<div id="icons" popover>
-		<h3>Icons</h3>
-		<div class="row">
-			<img src="rule_add.png" alt="sorry" />
-			<p>Add given cards to the right of the clearing</p>
-		</div>
-		<div class="row">
-			<img src="rule_remove.png" alt="sorry" />
-			<p>Discard given cards from the given direction of the clearing</p>
-		</div>
-		<div class="row">
-			<img src="rule_discard.png" alt="sorry" />
-			<p>Discard one card directly from the draw pile</p>
-		</div>
+<div class="card-container">
+	<button on:click={drawNext}>
+		<img
+			class="card shadow"
+			class:grayed-out={needsReshuffle}
+			src={srcPath}
+			alt="sorry"
+			width="100%"
+		/>
+	</button>
+	<div class="rules box shadow">
+		{message}
 	</div>
-	<div class="nav-container">
-		<button popovertarget="icons">Explain icons</button>
-		<button><a href="/information">Go to rules</a></button>
-	</div>
-</div>
-
-<div class="main-container">
-	<img class="card" class:grayed-out={needsReshuffle} src={srcPath} alt="sorry" width={280} />
-	{#if needsReshuffle}
-		<button class="main-container__action" on:click={reshuffleAndDrawFirst}
-			>Reshuffle & Draw first</button
+	<div class="navigation box shadow">
+		<button class="icon-button" popovertarget="icon-popover" popovertargetaction="show"
+			><i class="fas fa-question"></i></button
 		>
-	{:else}
-		<button class="main-container__action" on:click={drawNextCard}>Draw next</button>
-	{/if}
-	<p class="message">{message}</p>
+		<div class="divider" />
+		<button class="icon-button" popovertarget="rules-popover"><i class="fas fa-book"></i></button>
+	</div>
 </div>
 
 <style>
-	.main-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		margin: 16px;
+	.card-container {
+		display: block;
+		width: 80%;
+		margin: 24px 0;
 		position: relative;
 	}
-	.main-container__action {
-		all: unset;
-		margin-top: 8px;
-		font-size: 24px;
-		width: 196px;
-		padding: 12px 24px;
-		text-align: center;
-		position: absolute;
-		color: black;
-		background-color: whitesmoke;
-		border: unset;
-		opacity: 70%;
-		text-transform: uppercase;
-		border-radius: 8px;
-		box-shadow: 0px 0px 4px 0px gray;
+	button {
+		width: 100%;
 	}
-	.nav-container button {
-		all: unset;
-		width: 128px;
-		text-align: center;
-		text-transform: uppercase;
-		border: unset;
-		padding: 8px 12px;
-		border-radius: 8px;
-		background-color: whitesmoke;
-		box-shadow: 0px 0px 4px 0px gray;
-	}
-
-	a {
-		text-decoration: none;
-		color: black;
-	}
-
-	h3 {
-		margin: 8px;
-	}
-
 	.card {
+		width: 100%;
 		border-radius: 8px;
+		overflow: hidden;
+		background-color: white;
 	}
 	.grayed-out {
 		opacity: 0.5;
 	}
-	.nav-container {
-		display: flex;
-		justify-content: space-around;
-		margin: 0 16px;
-	}
-	.info-container {
+	.navigation {
+		position: absolute;
+		bottom: -8px;
+		left: -24px;
 		display: flex;
 		flex-direction: column;
-		margin: 0px 16px;
-	}
-	.row {
-		display: flex;
 		align-items: center;
-		margin-left: 16px;
-
-		& img {
-			margin-right: 16px;
-			width: 30px;
-		}
-		& p {
-			margin: 4px 0px;
+		& i {
+			padding: 8px 0;
+			font-size: 20px;
 		}
 	}
-	.message {
-		background-color: whitesmoke;
-		opacity: 80%;
-		background-blend-mode: color;
-		padding: 8px;
-		border-radius: 8px;
+	.divider {
+		width: 24px;
+		height: 2px;
+		background-color: black;
+	}
+	.rules {
 		position: absolute;
-		top: 0;
-		right: 50px;
+		top: -8px;
+		right: -8px;
+	}
+	.box {
+		background-color: #faef9d;
+		padding: 8px 16px;
+		border-radius: 8px;
+	}
+	.shadow {
+		box-shadow: 0px 0px 4px 0px gray;
+	}
+	.icon-button {
+		text-align: center;
 	}
 </style>
