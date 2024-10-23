@@ -1,6 +1,7 @@
 <script lang="ts">
+	import Card from '../Card.svelte';
 	import {
-		type Card,
+		type Card as CardType,
 		shuffleDrawPile,
 		openFromDrawPile,
 		discardFromOpened,
@@ -10,7 +11,7 @@
 	import { shuffleArray } from '../fishersAlgorithm';
 	import { persistedWritable } from '../persistedWritable';
 
-	const deck: Card[] = shuffleArray([
+	const deck: CardType[] = shuffleArray([
 		{ id: '0', src: 'forestshuffle/0.webp' },
 		{ id: '1', src: 'forestshuffle/1.webp' },
 		{ id: '2', src: 'forestshuffle/2.webp' },
@@ -61,116 +62,45 @@
 	};
 
 	const drawNextCard = () => {
-		const opened = $state.opened;
-		opened.forEach((card) => {
+		if ($state.opened.length === 0) {
+			state.set(openFromDrawPile($state));
+			return;
+		}
+
+		$state.opened.forEach((card) => {
 			state.set(discardFromOpened($state, card));
 		});
-		state.set(openFromDrawPile($state));
+		return;
 	};
-	let flipped = false;
-	let discarded = false;
+
+	const orderNumber = ({ id }: CardType) => {
+		if ($state.opened.map(({ id }) => id).includes(id)) {
+			return 100;
+		}
+		if ($state.drawPile.map(({ id }) => id).includes(id)) {
+			return -$state.drawPile.map(({ id }) => id).indexOf(id);
+		}
+		return $state.discardPile.map(({ id }) => id).indexOf(id);
+	};
 </script>
 
-<button class="card-container" on:click={() => (flipped = !flipped)}>
-	<img class="card card-front" src={'forestshuffle/_back.webp'} alt="sorry" width="100%" />
-	<img
-		class="card card-front"
-		class:flipped
-		class:discarded
-		src={srcPath}
-		alt="sorry"
-		width="100%"
-	/>
-	<img
-		class="card card-back"
-		class:flipped
-		src={'forestshuffle/_back.webp'}
-		alt="sorry"
-		width="100%"
-	/>
-</button>
+<div class="pile">
+	<Card order={-100} onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
+	{#each $state.deck as card}
+		{@const src = $state.deck.find((cur) => cur.id === card.id)?.src ?? 'not found'}
+		<Card
+			order={orderNumber(card)}
+			onClick={drawNextCard}
+			frontPicturePath={src}
+			discarded={$state.discardPile.map(({ id }) => id).includes(card.id)}
+			flipped={$state.drawPile.map(({ id }) => id).includes(card.id)}
+		/>
+	{/each}
+</div>
 
 <style>
-	.card-container {
-		display: block;
-		position: relative;
+	.pile {
 		width: 80%;
-		bottom: 0px;
-		margin: 24px 0;
-	}
-	button {
-		width: 100%;
-	}
-	.card {
-		position: absolute;
-		width: 100%;
-		background-color: white;
-		backface-visibility: hidden;
-		transition-duration: 0.8s;
-		border-radius: 8px;
-		overflow: hidden;
-		box-shadow: 0px 0px 4px 0px gray;
-
-		& > img {
-			position: fixed;
-			border-radius: 8px;
-			overflow: hidden;
-		}
-
-		&.discarded {
-			transform: scale(0.4) translate3d(150px, 750px, 0) rotateZ(-90deg);
-		}
-	}
-	.card-front {
-		z-index: 1;
-		&.flipped {
-			transform: rotateY(180deg);
-			z-index: 0;
-		}
-	}
-	.card-back {
-		z-index: 0;
-		transform: rotate3d(0, 1, 0, 180deg);
-		&.flipped {
-			transform: rotateY(360deg);
-			z-index: 10;
-		}
-	}
-
-	.grayed-out {
-		opacity: 0.5;
-	}
-	.navigation {
-		position: absolute;
-		bottom: -8px;
-		left: -24px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		& i {
-			padding: 8px 0;
-			font-size: 20px;
-		}
-	}
-	.divider {
-		width: 24px;
-		height: 2px;
-		background-color: black;
-	}
-	.rules {
-		position: absolute;
-		top: -8px;
-		right: -8px;
-	}
-	.box {
-		background-color: #faef9d;
-		padding: 8px 16px;
-		border-radius: 8px;
-	}
-	.shadow {
-		box-shadow: 0px 0px 4px 0px gray;
-	}
-	.icon-button {
-		text-align: center;
+		margin-top: 24px;
 	}
 </style>
