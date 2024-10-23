@@ -48,7 +48,6 @@
 		transition-duration: 0.8s;
 		border-radius: 8px;
 		overflow: hidden;
-		box-shadow: 0px 0px 4px 0px gray;
 
 		& > img {
 			position: fixed;
