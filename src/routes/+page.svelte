@@ -61,53 +61,82 @@
 	};
 
 	const drawNextCard = () => {
-		console.log({ state: $state });
 		const opened = $state.opened;
 		opened.forEach((card) => {
 			state.set(discardFromOpened($state, card));
 		});
 		state.set(openFromDrawPile($state));
 	};
+	let flipped = false;
+	let discarded = false;
 </script>
 
-<div class="card-container">
-	<button on:click={drawNext}>
-		<img
-			class="card shadow"
-			class:grayed-out={needsReshuffle}
-			src={srcPath}
-			alt="sorry"
-			width="100%"
-		/>
-	</button>
-	<div class="rules box shadow">
-		{message}
-	</div>
-	<div class="navigation box shadow">
-		<button class="icon-button" popovertarget="icon-popover" popovertargetaction="show"
-			><i class="fas fa-question"></i></button
-		>
-		<div class="divider" />
-		<button class="icon-button" popovertarget="rules-popover"><i class="fas fa-book"></i></button>
-	</div>
-</div>
+<button class="card-container" on:click={() => (flipped = !flipped)}>
+	<img class="card card-front" src={'forestshuffle/_back.webp'} alt="sorry" width="100%" />
+	<img
+		class="card card-front"
+		class:flipped
+		class:discarded
+		src={srcPath}
+		alt="sorry"
+		width="100%"
+	/>
+	<img
+		class="card card-back"
+		class:flipped
+		src={'forestshuffle/_back.webp'}
+		alt="sorry"
+		width="100%"
+	/>
+</button>
 
 <style>
 	.card-container {
 		display: block;
-		width: 80%;
-		margin: 24px 0;
 		position: relative;
+		width: 80%;
+		bottom: 0px;
+		margin: 24px 0;
 	}
 	button {
 		width: 100%;
 	}
 	.card {
+		position: absolute;
 		width: 100%;
+		background-color: white;
+		backface-visibility: hidden;
+		transition-duration: 0.8s;
 		border-radius: 8px;
 		overflow: hidden;
-		background-color: white;
+		box-shadow: 0px 0px 4px 0px gray;
+
+		& > img {
+			position: fixed;
+			border-radius: 8px;
+			overflow: hidden;
+		}
+
+		&.discarded {
+			transform: scale(0.4) translate3d(150px, 750px, 0) rotateZ(-90deg);
+		}
 	}
+	.card-front {
+		z-index: 1;
+		&.flipped {
+			transform: rotateY(180deg);
+			z-index: 0;
+		}
+	}
+	.card-back {
+		z-index: 0;
+		transform: rotate3d(0, 1, 0, 180deg);
+		&.flipped {
+			transform: rotateY(360deg);
+			z-index: 10;
+		}
+	}
+
 	.grayed-out {
 		opacity: 0.5;
 	}
