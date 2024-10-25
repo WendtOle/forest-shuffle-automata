@@ -1,6 +1,7 @@
 <script lang="ts">
+	import Card from '../Card.svelte';
 	import {
-		type Card,
+		type Card as CardType,
 		shuffleDrawPile,
 		openFromDrawPile,
 		discardFromOpened,
@@ -10,7 +11,7 @@
 	import { shuffleArray } from '../fishersAlgorithm';
 	import { persistedWritable } from '../persistedWritable';
 
-	const deck: Card[] = shuffleArray([
+	const deck: CardType[] = shuffleArray([
 		{ id: '0', src: 'forestshuffle/0.webp' },
 		{ id: '1', src: 'forestshuffle/1.webp' },
 		{ id: '2', src: 'forestshuffle/2.webp' },
@@ -40,49 +41,46 @@
 		discardPile: []
 	});
 
-	$: srcPath =
-		$state.opened.length > 0
-			? $state.deck.find((cur) => cur.id === $state.opened[0].id)?.src
-			: 'forestshuffle/_back.webp';
-	$: needsReshuffle = $state.drawPile.length === 0 && $state.opened.length === 0;
-	$: message = `${$state.drawPile.length + $state.opened.length}/${deck.length} cards left`;
-
-	const drawNext = () => {
-		console.log('test');
-		if (needsReshuffle) {
-			reshuffle();
-		}
-		drawNextCard();
-	};
-
 	const reshuffle = () => {
 		state.set(moveFromDiscardToDrawPile($state));
 		state.set(shuffleDrawPile($state));
 	};
 
 	const drawNextCard = () => {
-		console.log({ state: $state });
-		const opened = $state.opened;
-		opened.forEach((card) => {
+		if ($state.opened.length === 0) {
+			state.set(openFromDrawPile($state));
+			return;
+		}
+
+		$state.opened.forEach((card) => {
 			state.set(discardFromOpened($state, card));
 		});
-		state.set(openFromDrawPile($state));
+		return;
+	};
+
+	const orderNumber = ({ id }: CardType) => {
+		if ($state.opened.map(({ id }) => id).includes(id)) {
+			return 100;
+		}
+		if ($state.drawPile.map(({ id }) => id).includes(id)) {
+			return -$state.drawPile.map(({ id }) => id).indexOf(id);
+		}
+		return $state.discardPile.map(({ id }) => id).indexOf(id);
 	};
 </script>
 
-<div class="card-container">
-	<button on:click={drawNext}>
-		<img
-			class="card shadow"
-			class:grayed-out={needsReshuffle}
-			src={srcPath}
-			alt="sorry"
-			width="100%"
+<div class="pile">
+	<Card order={-100} onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
+	{#each $state.deck as card}
+		{@const src = $state.deck.find((cur) => cur.id === card.id)?.src ?? 'not found'}
+		<Card
+			order={orderNumber(card)}
+			onClick={drawNextCard}
+			frontPicturePath={src}
+			discarded={$state.discardPile.map(({ id }) => id).includes(card.id)}
+			flipped={$state.drawPile.map(({ id }) => id).includes(card.id)}
 		/>
-	</button>
-	<div class="rules box shadow">
-		{message}
-	</div>
+	{/each}
 	<div class="navigation box shadow">
 		<button class="icon-button" popovertarget="icon-popover" popovertargetaction="show"
 			><i class="fas fa-question"></i></button
@@ -93,28 +91,16 @@
 </div>
 
 <style>
-	.card-container {
-		display: block;
+	.pile {
 		width: 80%;
-		margin: 24px 0;
+		margin-top: 24px;
 		position: relative;
 	}
-	button {
-		width: 100%;
-	}
-	.card {
-		width: 100%;
-		border-radius: 8px;
-		overflow: hidden;
-		background-color: white;
-	}
-	.grayed-out {
-		opacity: 0.5;
-	}
 	.navigation {
+		z-index: 1000;
 		position: absolute;
-		bottom: -8px;
-		left: -24px;
+		bottom: -575px;
+		left: 16px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -128,11 +114,6 @@
 		height: 2px;
 		background-color: black;
 	}
-	.rules {
-		position: absolute;
-		top: -8px;
-		right: -8px;
-	}
 	.box {
 		background-color: #faef9d;
 		padding: 8px 16px;
@@ -140,8 +121,5 @@
 	}
 	.shadow {
 		box-shadow: 0px 0px 4px 0px gray;
-	}
-	.icon-button {
-		text-align: center;
 	}
 </style>
