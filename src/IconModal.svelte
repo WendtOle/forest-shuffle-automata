@@ -31,7 +31,7 @@
 	#icon-popover {
 		width: 240px;
 		height: 180px;
-		background-color: white;
+		background-color: rgba(255, 255, 255, 0.8);
 		padding: 16px;
 		border-radius: 8px;
 		margin: 60px auto;
