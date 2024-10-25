@@ -81,13 +81,6 @@
 			flipped={$state.drawPile.map(({ id }) => id).includes(card.id)}
 		/>
 	{/each}
-	<div class="navigation box shadow">
-		<button class="icon-button" popovertarget="icon-popover" popovertargetaction="show"
-			><i class="fas fa-question"></i></button
-		>
-		<div class="divider" />
-		<button class="icon-button" popovertarget="rules-popover"><i class="fas fa-book"></i></button>
-	</div>
 </div>
 
 <style>
@@ -95,31 +88,5 @@
 		width: 80%;
 		margin-top: 24px;
 		position: relative;
-	}
-	.navigation {
-		z-index: 1000;
-		position: absolute;
-		bottom: -575px;
-		left: 16px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		& i {
-			padding: 8px 0;
-			font-size: 20px;
-		}
-	}
-	.divider {
-		width: 24px;
-		height: 2px;
-		background-color: black;
-	}
-	.box {
-		background-color: #faef9d;
-		padding: 8px 16px;
-		border-radius: 8px;
-	}
-	.shadow {
-		box-shadow: 0px 0px 4px 0px gray;
 	}
 </style>
