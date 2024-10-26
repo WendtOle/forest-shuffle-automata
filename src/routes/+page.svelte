@@ -70,16 +70,21 @@
 </script>
 
 <div class="pile">
-	<Card zIndex={-100} onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
+	<div class="empty-pile">
+		<Card onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
+	</div>
 	{#each Object.keys($state.deck) as cardId}
 		{@const src = $state.deck[cardId].src}
-		<Card
-			zIndex={getZIndex(cardId)}
-			onClick={drawNextCard}
-			frontPicturePath={src}
-			discarded={$state.discardPile.includes(cardId)}
-			flipped={$state.drawPile.includes(cardId)}
-		/>
+		<div 
+			class="card" 
+			class:discarded={$state.discardPile.includes(cardId)}
+			style="z-index: {getZIndex(cardId)};">
+			<Card
+				onClick={drawNextCard}
+				frontPicturePath={src}
+				flipped={$state.drawPile.includes(cardId)}
+			/>
+		</div>
 	{/each}
 </div>
 
@@ -87,6 +92,15 @@
 	.pile {
 		width: 80%;
 		margin-top: 24px;
+	}
+	.card {
+		transition-duration: 0.8s;
+	}
+	.empty-pile {
+		z-index: -100;
 		position: relative;
+	}
+	.discarded {
+		transform: translate3d(-35px, 540px, 0) scale(0.4) rotateZ(-90deg);
 	}
 </style>
