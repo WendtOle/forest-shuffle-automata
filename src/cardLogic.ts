@@ -2,13 +2,10 @@ import { shuffleArray } from './fishersAlgorithm';
 
 export interface Card {
 	src: string;
-	id: string;
 }
 
-export type CardId = Pick<Card, 'id'>;
-
 export interface State {
-	deck: Card[];
+	deck: Record<string, Card>;
 	drawPile: string[];
 	discardPile: string[];
 	opened: string[];

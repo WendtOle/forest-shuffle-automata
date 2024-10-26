@@ -10,15 +10,15 @@ import {
 } from './cardLogic';
 
 describe('Deck', () => {
-	const deck: Card[] = [
-		{ id: '1', src: 'some/path.wepb' },
-		{ id: '2', src: 'some/path.wepb' }
-	];
+	const deck: Record<string, Card> = {
+		'1': { src: 'some/path.wepb' },
+		'2': { src: 'some/path.wepb' }
+	};
 
 	it('should draw first card of drawpile', () => {
 		const state: State = {
 			deck,
-			drawPile: deck.map(({ id }) => id),
+			drawPile: Object.keys(deck),
 			discardPile: [],
 			opened: []
 		};
@@ -31,13 +31,13 @@ describe('Deck', () => {
 	});
 	it('should change anything if deck is empty', () => {
 		const state: State = {
-			deck: [],
+			deck: {},
 			drawPile: [],
 			discardPile: [],
 			opened: []
 		};
 		expect(openFromDrawPile(state)).toEqual({
-			deck: [],
+			deck: {},
 			drawPile: [],
 			discardPile: [],
 			opened: []

@@ -11,32 +11,32 @@
 	import { shuffleArray } from '../fishersAlgorithm';
 	import { persistedWritable } from '../persistedWritable';
 
-	const deck: CardType[] = shuffleArray([
-		{ id: '0', src: 'forestshuffle/0.webp' },
-		{ id: '1', src: 'forestshuffle/1.webp' },
-		{ id: '2', src: 'forestshuffle/2.webp' },
-		{ id: '3', src: 'forestshuffle/3.webp' },
-		{ id: '4', src: 'forestshuffle/4.webp' },
-		{ id: '5', src: 'forestshuffle/5.webp' },
-		{ id: '6', src: 'forestshuffle/6.webp' },
-		{ id: '7', src: 'forestshuffle/7.webp' },
-		{ id: '8', src: 'forestshuffle/8.webp' },
-		{ id: '9', src: 'forestshuffle/9.webp' },
-		{ id: '10', src: 'forestshuffle/10.webp' },
-		{ id: '11', src: 'forestshuffle/11.webp' },
-		{ id: '12', src: 'forestshuffle/12.webp' },
-		{ id: '13', src: 'forestshuffle/13.webp' },
-		{ id: '14', src: 'forestshuffle/14.webp' },
-		{ id: '15', src: 'forestshuffle/15.webp' },
-		{ id: '16', src: 'forestshuffle/16.webp' },
-		{ id: '17', src: 'forestshuffle/17.webp' },
-		{ id: '18', src: 'forestshuffle/18.webp' },
-		{ id: '19', src: 'forestshuffle/19.webp' }
-	]);
+	const deck: Record<string, CardType> = { 
+		"0" : { src: 'forestshuffle/0.webp' },
+		"1" : { src: 'forestshuffle/1.webp' },
+		"2" : { src: 'forestshuffle/2.webp' },
+		"3" : { src: 'forestshuffle/3.webp' },
+		"4" : { src: 'forestshuffle/4.webp' },
+		"5" : { src: 'forestshuffle/5.webp' },
+		"6" : { src: 'forestshuffle/6.webp' },
+		"7" : { src: 'forestshuffle/7.webp' },
+		"8" : { src: 'forestshuffle/8.webp' },
+		"9" : { src: 'forestshuffle/9.webp' },
+		"10" : { src: 'forestshuffle/10.webp' },
+		"11" : { src: 'forestshuffle/11.webp' },
+		"12" : { src: 'forestshuffle/12.webp' },
+		"13" : { src: 'forestshuffle/13.webp' },
+		"14" : { src: 'forestshuffle/14.webp' },
+		"15" : { src: 'forestshuffle/15.webp' },
+		"16" : { src: 'forestshuffle/16.webp' },
+		"17" : { src: 'forestshuffle/17.webp' },
+		"18" : { src: 'forestshuffle/18.webp' },
+		"19" : { src: 'forestshuffle/19.webp' },
+};
 
 	const state = persistedWritable<State>('deck', {
 		deck,
-		drawPile: deck.map(({id}) => id),
+		drawPile: shuffleArray(Object.keys(deck)),
 		opened: [],
 		discardPile: []
 	});
@@ -58,27 +58,27 @@
 		return;
 	};
 
-	const orderNumber = ({ id }: CardType) => {
-		if ($state.opened.includes(id)) {
+	const orderNumber = (cardId: string) => {
+		if ($state.opened.includes(cardId)) {
 			return 100;
 		}
-		if ($state.drawPile.includes(id)) {
-			return -$state.drawPile.indexOf(id);
+		if ($state.drawPile.includes(cardId)) {
+			return -$state.drawPile.indexOf(cardId);
 		}
-		return $state.discardPile.indexOf(id);
+		return $state.discardPile.indexOf(cardId);
 	};
 </script>
 
 <div class="pile">
 	<Card order={-100} onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
-	{#each $state.deck as card}
-		{@const src = $state.deck.find((cur) => cur.id === card.id)?.src ?? 'not found'}
+	{#each Object.keys($state.deck) as cardId}
+		{@const src = $state.deck[cardId].src}
 		<Card
-			order={orderNumber(card)}
+			order={orderNumber(cardId)}
 			onClick={drawNextCard}
 			frontPicturePath={src}
-			discarded={$state.discardPile.includes(card.id)}
-			flipped={$state.drawPile.includes(card.id)}
+			discarded={$state.discardPile.includes(cardId)}
+			flipped={$state.drawPile.includes(cardId)}
 		/>
 	{/each}
 </div>
