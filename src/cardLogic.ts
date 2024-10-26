@@ -9,9 +9,9 @@ export type CardId = Pick<Card, 'id'>;
 
 export interface State {
 	deck: Card[];
-	drawPile: CardId[];
-	discardPile: CardId[];
-	opened: CardId[];
+	drawPile: string[];
+	discardPile: string[];
+	opened: string[];
 }
 
 const drawCard = (state: State) => {
@@ -41,13 +41,12 @@ export const discardFromDrawPile = (state: State): State => {
 	};
 };
 
-export const discardFromOpened = (state: State, cardId: CardId): State => {
-	const card = state.opened.find(({ id }) => id === cardId.id);
-	const opened = state.opened.filter(({ id }) => id !== cardId.id);
+export const discardFromOpened = (state: State, cardId: string): State => {
+	const opened = state.opened.filter((id) => id !== cardId);
 	return {
 		...state,
 		opened,
-		discardPile: [...state.discardPile, ...(card ? [card] : [])]
+		discardPile: [...state.discardPile, cardId]
 	};
 };
 

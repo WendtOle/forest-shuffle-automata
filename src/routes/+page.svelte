@@ -36,7 +36,7 @@
 
 	const state = persistedWritable<State>('deck', {
 		deck,
-		drawPile: deck,
+		drawPile: deck.map(({id}) => id),
 		opened: [],
 		discardPile: []
 	});
@@ -59,13 +59,13 @@
 	};
 
 	const orderNumber = ({ id }: CardType) => {
-		if ($state.opened.map(({ id }) => id).includes(id)) {
+		if ($state.opened.includes(id)) {
 			return 100;
 		}
-		if ($state.drawPile.map(({ id }) => id).includes(id)) {
-			return -$state.drawPile.map(({ id }) => id).indexOf(id);
+		if ($state.drawPile.includes(id)) {
+			return -$state.drawPile.indexOf(id);
 		}
-		return $state.discardPile.map(({ id }) => id).indexOf(id);
+		return $state.discardPile.indexOf(id);
 	};
 </script>
 
@@ -77,8 +77,8 @@
 			order={orderNumber(card)}
 			onClick={drawNextCard}
 			frontPicturePath={src}
-			discarded={$state.discardPile.map(({ id }) => id).includes(card.id)}
-			flipped={$state.drawPile.map(({ id }) => id).includes(card.id)}
+			discarded={$state.discardPile.includes(card.id)}
+			flipped={$state.drawPile.includes(card.id)}
 		/>
 	{/each}
 </div>
