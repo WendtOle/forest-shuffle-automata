@@ -70,15 +70,18 @@
 </script>
 
 <div class="pile">
-	<div class="empty-pile">
-		<Card onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
-	</div>
+	{#if $state.drawPile.length === 0}
+		<div class="empty-pile">
+			<Card onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
+		</div>	
+	{/if}
+	
 	{#each Object.keys($state.deck) as cardId}
 		{@const src = $state.deck[cardId].src}
 		<div 
 			class="card" 
 			class:discarded={$state.discardPile.includes(cardId)}
-			style="z-index: {getZIndex(cardId)};">
+			style="--order: {getZIndex(cardId)}; --index: {getZIndex(cardId) === 100 ? 0 : getZIndex(cardId)}; --amount: {$state.drawPile.length};">
 			<Card
 				onClick={drawNextCard}
 				frontPicturePath={src}
@@ -96,12 +99,14 @@
 	.card {
 		position: relative;
 		transition-duration: 0.8s;
+		z-index: var(--order);
+		transform: translate3d(calc(var(--amount) * -1px +  var(--index) * -2px), calc(var(--index) * -2px), 0);
 	}
 	.empty-pile {
 		z-index: -100;
 		position: relative;
 	}
 	.discarded {
-		transform: translate3d(-35px, 540px, 0) scale(0.4) rotateZ(-90deg);
+		transform: translate3d(calc(-70px + var(--amount) * -1px +  var(--index) * -2px), calc(570px + var(--index) * -2px), 0) scale(0.4) rotateZ(-90deg);
 	}
 </style>
