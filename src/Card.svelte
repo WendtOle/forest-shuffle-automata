@@ -3,11 +3,11 @@
 	export let flipped = false;
 	export let discarded = false;
 	export let onClick = () => {};
-	export let order: number;
+	export let zIndex: number;
 	export let gray = false;
 
-	$: upperNumber = order * 2;
-	$: lowerNumber = order * 2 - 1;
+	$: upperNumber = zIndex * 2;
+	$: lowerNumber = zIndex * 2 - 1;
 </script>
 
 <button class="card" on:click={onClick} style="--upper: {upperNumber}; --lower: {lowerNumber}">

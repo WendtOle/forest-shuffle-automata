@@ -58,7 +58,7 @@
 		return;
 	};
 
-	const orderNumber = (cardId: string) => {
+	const getZIndex = (cardId: string) => {
 		if ($state.opened.includes(cardId)) {
 			return 100;
 		}
@@ -70,11 +70,11 @@
 </script>
 
 <div class="pile">
-	<Card order={-100} onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
+	<Card zIndex={-100} onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
 	{#each Object.keys($state.deck) as cardId}
 		{@const src = $state.deck[cardId].src}
 		<Card
-			order={orderNumber(cardId)}
+			zIndex={getZIndex(cardId)}
 			onClick={drawNextCard}
 			frontPicturePath={src}
 			discarded={$state.discardPile.includes(cardId)}
