@@ -5,19 +5,16 @@
 	export let onClick = () => {};
 	export let zIndex: number;
 	export let gray = false;
-
-	$: upperNumber = zIndex * 2;
-	$: lowerNumber = zIndex * 2 - 1;
 </script>
 
-<button class="card" on:click={onClick} style="--upper: {upperNumber}; --lower: {lowerNumber}">
+<button class="card" on:click={onClick} style="--z-index: {zIndex}">
 	<img
 		class="front"
 		class:flipped
 		class:discarded
 		class:gray
 		src={frontPicturePath}
-		alt={`${upperNumber}`}
+		alt="sorry"
 		width="100%"
 	/>
 	<img
@@ -48,18 +45,18 @@
 		}
 	}
 	.front {
-		z-index: var(--upper);
+		z-index: calc(var(--z-index) * 2);
 		&.flipped {
 			transform: rotateY(180deg);
-			z-index: var(--lower);
+			z-index: calc(var(--z-index) * 2 - 1);
 		}
 	}
 	.back {
-		z-index: var(--lower);
+		z-index: calc(var(--z-index) * 2 - 1);
 		transform: rotate3d(0, 1, 0, 180deg);
 		&.flipped {
 			transform: rotateY(360deg);
-			z-index: var(--upper);
+			z-index: calc(var(--z-index) * 2);
 		}
 	}
 	.gray {
