@@ -93,8 +93,8 @@
 
 <style>
 	.pile {
-		width: 80%;
-		margin-top: 24px;
+		width: 280px;
+		margin-top: 12px;
 	}
 	.card {
 		position: relative;
@@ -107,6 +107,6 @@
 		position: relative;
 	}
 	.discarded {
-		transform: translate3d(calc(-70px + var(--amount) * -1px +  var(--index) * -2px), calc(570px + var(--index) * -2px), 0) scale(0.4) rotateZ(-90deg);
+		transform: translate3d(calc(-70px + var(--amount) * -1px +  var(--index) * -2px), calc(540px + var(--index) * -2px), 0) scale(0.4) rotateZ(-90deg);
 	}
 </style>
