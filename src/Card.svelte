@@ -14,14 +14,14 @@
 	style="--z-index: {zIndex}" 
 	on:click={onClick} >
 	<img
-		class="front"
+		class="top"
 		class:gray
 		src={frontPicturePath}
 		alt="sorry"
 		width="100%"
 	/>
 	<img
-		class="back"
+		class="bottom"
 		src={'forestshuffle/_back.webp'}
 		alt="sorry"
 		width="100%"
@@ -43,27 +43,27 @@
 		border-radius: 8px;
 		overflow: hidden;
 	}
-	.front {
+	.top {
 		z-index: calc(var(--z-index) * 2);
 	}
-	.back {
+	.bottom {
 		z-index: calc(var(--z-index) * 2 - 1);
 		transform: rotateY(180deg);
 	}
 	.discarded {
-		& .front {
+		& .top {
 			transform: scale(0.4) translate3d(140px, 750px, 0) rotateZ(-90deg);
 		}
-		& .back {
+		& .bottom {
 			display: none;
 		}
 	}
 	.flipped {
-		& .front {
+		& .top {
 			transform: rotateY(180deg);
 			z-index: calc(var(--z-index) * 2 - 1);
 		}	
-		& .back {
+		& .bottom {
 			transform: rotateY(360deg);
 			z-index: calc(var(--z-index) * 2);
 		}
