@@ -94,6 +94,7 @@
 		margin-top: 24px;
 	}
 	.card {
+		position: relative;
 		transition-duration: 0.8s;
 	}
 	.empty-pile {
