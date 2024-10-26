@@ -10,21 +10,19 @@
 	$: lowerNumber = order * 2 - 1;
 </script>
 
-<button class="card-container" on:click={onClick}>
+<button class="card" on:click={onClick} style="--upper: {upperNumber}; --lower: {lowerNumber}">
 	<img
-		class="card card-front"
+		class="front"
 		class:flipped
 		class:discarded
 		class:gray
-		style="--upper: {upperNumber}; --lower: {lowerNumber}"
 		src={frontPicturePath}
 		alt={`${upperNumber}`}
 		width="100%"
 	/>
 	<img
-		class="card card-back"
+		class="back"
 		class:flipped
-		style="--upper: {upperNumber}; --lower: {lowerNumber}"
 		src={'forestshuffle/_back.webp'}
 		alt="sorry"
 		width="100%"
@@ -32,15 +30,12 @@
 </button>
 
 <style>
-	.card-container {
+	.card {
 		position: relative;
 		display: block;
 		width: 100%;
 	}
-	button {
-		width: 100%;
-	}
-	.card {
+	.card img {
 		position: absolute;
 		width: 100%;
 		background-color: white;
@@ -48,25 +43,18 @@
 		transition-duration: 0.8s;
 		border-radius: 8px;
 		overflow: hidden;
-
-		& > img {
-			position: fixed;
-			border-radius: 8px;
-			overflow: hidden;
-		}
-
 		&.discarded {
 			transform: scale(0.4) translate3d(140px, 750px, 0) rotateZ(-90deg);
 		}
 	}
-	.card-front {
+	.front {
 		z-index: var(--upper);
 		&.flipped {
 			transform: rotateY(180deg);
 			z-index: var(--lower);
 		}
 	}
-	.card-back {
+	.back {
 		z-index: var(--lower);
 		transform: rotate3d(0, 1, 0, 180deg);
 		&.flipped {
