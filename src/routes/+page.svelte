@@ -164,13 +164,13 @@
 		}
 	}
 	.hint-open {
-		transform: translate3d(0px, 530px, 0) scale(0.8);
+		transform: translate3d(0px, 500px, 0) scale(0.8);
 		pointer-events: none;
 		transition-duration: 0.8s;
 		transition-delay: 0.5s;
 		opacity: 0;
 		& .arrow {
-			transform: translate3d(100px, -240px, 0);
+			transform: translate3d(90px, -220px, 0) scaleY(0.7);
 		}
 	}
 	.hint-discard {

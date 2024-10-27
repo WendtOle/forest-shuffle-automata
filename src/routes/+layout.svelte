@@ -16,7 +16,7 @@
 	.main {
 		width: 100%;
 		max-width: 400px;
-		height: 650px;
+		height: 625px;
 		display: flex;
 		align-items: center;
 		position: relative;
