@@ -5,6 +5,7 @@
 </script>
 
 <div class="main">
+	<h1>Forest Shuffle - Automata</h1>
 	<slot></slot>
 </div>
 
@@ -19,24 +20,19 @@
 		justify-content: center;
 		align-items: center;
 		position: relative;
+		flex-direction: column;
 	}
-	.info-popover {
-		margin: 8px;
-	}
-	.title {
-		font-size: 18px;
-	}
-	.text {
-		font-size: 14px;
-	}
-	button {
-		padding: 8px 16px;
+	h1 {
 		position: absolute;
-		right: 0;
-	}
-	[popover]::backdrop {
-		background-color: white;
-		opacity: 0.5;
-		pointer-events: none;
+		font-size: 16px;
+		font-weight: 100;
+		color: black;
+		margin: 0;
+		width: 100%;
+		height: 20px;
+		transform: rotateZ(-90deg);
+		left: -175px;
+		top: 60px;
+		opacity: 0.2;
 	}
 </style>

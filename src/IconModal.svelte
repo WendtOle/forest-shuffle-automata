@@ -1,17 +1,20 @@
+<script>
+	const altText = "Forest Shuffle Automata Card Icon"
+</script>
 <div id="icon-popover" popover="manual">
 	<div class="close-action-button">
 		<button popovertarget="icon-popover" popovertargetaction="hide">Close</button>
 	</div>
 	<div class="row">
-		<img src="rule_add.png" alt="sorry" />
+		<img src="rule_add.png" alt={altText} />
 		<p>Add given cards to the right of the clearing</p>
 	</div>
 	<div class="row">
-		<img src="rule_remove.png" alt="sorry" />
+		<img src="rule_remove.png" alt={altText} />
 		<p>Discard given cards from the given direction of the clearing</p>
 	</div>
 	<div class="row">
-		<img src="rule_discard.png" alt="sorry" />
+		<img src="rule_discard.png" alt={altText} />
 		<p>Discard one card directly from the draw pile</p>
 	</div>
 </div>

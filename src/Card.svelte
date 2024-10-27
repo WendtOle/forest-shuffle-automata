@@ -3,6 +3,8 @@
 	export let flipped = false;
 	export let onClick = () => {};
 	export let gray = false;
+
+	const altText = "Forest Shuffle Automata Card"
 </script>
 
 <button 
@@ -13,13 +15,13 @@
 		class="top"
 		class:gray
 		src={frontPicturePath}
-		alt="sorry"
+		alt={altText}
 		width="100%"
 	/>
 	<img
 		class="bottom"
 		src={'forestshuffle/_back.webp'}
-		alt="sorry"
+		alt={altText}
 		width="100%"
 	/>
 </button>

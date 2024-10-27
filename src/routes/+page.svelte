@@ -87,6 +87,8 @@
 		} 
 		drawNextCard();
 	}
+
+	const altText = "Forest Shuffle Automata UI "
 </script>
 
 <div class="pile">
@@ -106,23 +108,23 @@
 </div>
 
 <div class="svg hint-reshuffle" class:show={$state.discardPile.length === Object.keys($state.deck).length}>
-	<img src="reshuffle.svg" alt="arrow"/>
-	<img class="arrow" src="arrow.svg" alt="arrow"/>
+	<img src="reshuffle.svg" alt={altText + "Reshuffle"}/>
+	<img class="arrow" src="arrow.svg" alt={altText + "Arrow"}/>
 </div>
 <div class="svg hint-open" class:show={$state.drawPile.length === Object.keys($state.deck).length}>
-	<img src="open.svg" alt="arrow"/>
-	<img class="arrow" src="arrow.svg" alt="arrow"/>
+	<img src="open.svg" alt={altText + "Open"}/>
+	<img class="arrow" src="arrow.svg" alt={altText + "Arrow"}/>
 </div>
 <div class="svg hint-discard" class:show={$state.discardPile.length === 0 && $state.opened.length === 1}>
-	<img src="discard.svg" alt="arrow"/>
-	<img class="arrow" src="arrow.svg" alt="arrow"/>
+	<img src="discard.svg" alt={altText + "Discard"}/>
+	<img class="arrow" src="arrow.svg" alt={altText + "Arrow"}/>
 </div>
 <button class="svg icons" popovertarget="icon-popover" popovertargetaction="show">
-	<img src="icons.svg" alt="arrow"/>
+	<img src="icons.svg" alt={altText + "Iconography"}/>
 </button>
 
 <button class="svg rules" popovertarget="rules-popover">
-	<img src="rules.svg" alt="arrow"/>
+	<img src="rules.svg" alt={altText + "Rules"}/>
 </button>
 
 <style>
