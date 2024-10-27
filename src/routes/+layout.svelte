@@ -16,11 +16,12 @@
 	.main {
 		width: 100%;
 		max-width: 400px;
+		height: 650px;
 		display: flex;
-		justify-content: center;
 		align-items: center;
 		position: relative;
 		flex-direction: column;
+		overflow: hidden;
 	}
 	h1 {
 		position: absolute;

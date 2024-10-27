@@ -144,16 +144,18 @@
 	}
 	.svg {
 		position: absolute;
-		z-index: 1000;
+		z-index: 50;
+		width: 0;
+		height: 0;
 	}
 	.icons {
-		transform: translate3d(-110px, 510px, 0) scale(0.6,0.4);
+		transform: translate3d(-170px, 475px, 0) scale(0.6,0.4);
 	}
 	.rules {
-		transform: translate3d(-110px, 570px, 0) scale(0.6,0.4);
+		transform: translate3d(-170px, 535px, 0) scale(0.6,0.4);
 	}
 	.hint-reshuffle {
-		transform: translate3d(20px, 300px, 0) scale(0.8);
+		transform: translate3d(-120px, 160px, 0) scale(0.8);
 		pointer-events: none;
 		transition-duration: 0.8s;
 		opacity: 0;
@@ -162,23 +164,23 @@
 		}
 	}
 	.hint-open {
-		transform: translate3d(140px, 580px, 0) scale(0.8);
+		transform: translate3d(0px, 530px, 0) scale(0.8);
 		pointer-events: none;
 		transition-duration: 0.8s;
 		transition-delay: 0.5s;
 		opacity: 0;
 		& .arrow {
-			transform: translate3d(-100px, -30px, 0);
+			transform: translate3d(100px, -240px, 0);
 		}
 	}
 	.hint-discard {
-		transform: translate3d(140px, 580px, 0) scale(0.8);
+		transform: translate3d(0px, 530px, 0) scale(0.8);
 		pointer-events: none;
 		transition-duration: 0.8s;
 		transition-delay: 0.5s;
 		opacity: 0;
 		& .arrow {
-			transform: translate3d(-270px, -50px, 0) scaleX(-1);
+			transform: translate3d(-70px, -210px, 0) scaleX(-1);
 		}
 	}
 	.show {
