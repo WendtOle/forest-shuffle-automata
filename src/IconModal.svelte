@@ -34,7 +34,7 @@
 		background-color: rgba(255, 255, 255, 0.8);
 		padding: 16px;
 		border-radius: 8px;
-		margin: 60px auto;
+		margin: 30px auto;
 		position: relative;
 		flex-direction: column;
 		gap: 16px;

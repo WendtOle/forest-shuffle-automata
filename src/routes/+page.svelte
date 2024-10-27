@@ -41,6 +41,15 @@
 		discardPile: []
 	});
 
+	if (Array.isArray($state.deck)) {
+		state.set({
+			deck,
+			drawPile: shuffleArray(Object.keys(deck)),
+			opened: [],
+			discardPile: []
+		});
+	}
+
 	const reshuffle = () => {
 		state.set(moveFromDiscardToDrawPile($state));
 		state.set(shuffleDrawPile($state));
@@ -67,15 +76,20 @@
 		}
 		return $state.discardPile.indexOf(cardId);
 	};
+
+	const onCardClicked = (cardId: string) => () => {
+		if ($state.discardPile.length === Object.keys($state.deck).length) {
+			reshuffle();
+			return;
+		}
+		if ($state.discardPile.includes(cardId)) {
+			return
+		} 
+		drawNextCard();
+	}
 </script>
 
 <div class="pile">
-	{#if $state.drawPile.length === 0}
-		<div class="empty-pile">
-			<Card onClick={reshuffle} frontPicturePath={'forestshuffle/_back.webp'} gray />
-		</div>	
-	{/if}
-	
 	{#each Object.keys($state.deck) as cardId}
 		{@const src = $state.deck[cardId].src}
 		<div 
@@ -83,7 +97,7 @@
 			class:discarded={$state.discardPile.includes(cardId)}
 			style="--order: {getZIndex(cardId)}; --index: {getZIndex(cardId) === 100 ? 0 : getZIndex(cardId)}; --amount: {$state.drawPile.length};">
 			<Card
-				onClick={drawNextCard}
+				onClick={onCardClicked(cardId)}
 				frontPicturePath={src}
 				flipped={$state.drawPile.includes(cardId)}
 			/>
@@ -91,10 +105,31 @@
 	{/each}
 </div>
 
+<div class="svg hint-reshuffle" class:show={$state.discardPile.length === Object.keys($state.deck).length}>
+	<img src="reshuffle.svg" alt="arrow"/>
+	<img class="arrow" src="arrow.svg" alt="arrow"/>
+</div>
+<div class="svg hint-open" class:show={$state.drawPile.length === Object.keys($state.deck).length}>
+	<img src="open.svg" alt="arrow"/>
+	<img class="arrow" src="arrow.svg" alt="arrow"/>
+</div>
+<div class="svg hint-discard" class:show={$state.discardPile.length === 0 && $state.opened.length === 1}>
+	<img src="discard.svg" alt="arrow"/>
+	<img class="arrow" src="arrow.svg" alt="arrow"/>
+</div>
+<button class="svg icons" popovertarget="icon-popover" popovertargetaction="show">
+	<img src="icons.svg" alt="arrow"/>
+</button>
+
+<button class="svg rules" popovertarget="rules-popover">
+	<img src="rules.svg" alt="arrow"/>
+</button>
+
 <style>
 	.pile {
 		width: 280px;
 		margin-top: 12px;
+		position: relative;
 	}
 	.card {
 		position: relative;
@@ -102,11 +137,49 @@
 		z-index: var(--order);
 		transform: translate3d(calc(var(--amount) * -1px +  var(--index) * -2px), calc(var(--index) * -2px), 0);
 	}
-	.empty-pile {
-		z-index: -100;
-		position: relative;
-	}
 	.discarded {
-		transform: translate3d(calc(-70px + var(--amount) * -1px +  var(--index) * -2px), calc(540px + var(--index) * -2px), 0) scale(0.4) rotateZ(-90deg);
+		transform: translate3d(calc(-10px + var(--amount) * -1px +  var(--index) * -2px), calc(540px + var(--index) * -2px), 0) scale(0.4) rotateZ(-90deg);
+	}
+	.svg {
+		position: absolute;
+		z-index: 1000;
+	}
+	.icons {
+		transform: translate3d(-110px, 510px, 0) scale(0.6,0.4);
+	}
+	.rules {
+		transform: translate3d(-110px, 570px, 0) scale(0.6,0.4);
+	}
+	.hint-reshuffle {
+		transform: translate3d(20px, 300px, 0) scale(0.8);
+		pointer-events: none;
+		transition-duration: 0.8s;
+		opacity: 0;
+		& .arrow {
+			transform: translate3d(100px, 0, 0) rotateZ(180deg);
+		}
+	}
+	.hint-open {
+		transform: translate3d(140px, 580px, 0) scale(0.8);
+		pointer-events: none;
+		transition-duration: 0.8s;
+		transition-delay: 0.5s;
+		opacity: 0;
+		& .arrow {
+			transform: translate3d(-100px, -30px, 0);
+		}
+	}
+	.hint-discard {
+		transform: translate3d(140px, 580px, 0) scale(0.8);
+		pointer-events: none;
+		transition-duration: 0.8s;
+		transition-delay: 0.5s;
+		opacity: 0;
+		& .arrow {
+			transform: translate3d(-270px, -50px, 0) scaleX(-1);
+		}
+	}
+	.show {
+		opacity: 1;
 	}
 </style>
